@@ -57,8 +57,8 @@ def extract_keys(data, stop_after=5):
     return sorted_keys
 
 
-def transform(data, include_headers=True):
-    keys = extract_keys(data)
+def transform(data, include_headers=True, keys=None):
+    keys = keys or extract_keys(data)
 
     with closing(six.StringIO()) as buff:
         if include_headers:

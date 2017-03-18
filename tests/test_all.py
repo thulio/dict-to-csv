@@ -222,3 +222,31 @@ class TestTransform(unittest.TestCase):
         ]
 
         self.assertEqual(transform(data, include_headers=False), 'value 1,value 2\nvalue 3,value 4\n')
+
+    def test_use_given_keys(self):
+        data = [
+            {
+                'key_1': 'value 1',
+                'key_2': 'value 2'
+            },
+            {
+                'key_1': 'value 3',
+                'key_2': 'value 4'
+            }
+        ]
+
+        self.assertEqual(transform(data, keys=['key_1']), 'key_1\nvalue 1\nvalue 3\n')
+
+    def test_use_invalid_given_keys(self):
+        data = [
+            {
+                'key_1': 'value 1',
+                'key_2': 'value 2'
+            },
+            {
+                'key_1': 'value 3',
+                'key_2': 'value 4'
+            }
+        ]
+
+        self.assertEqual(transform(data, keys=['key_9']), 'key_9\n\n\n')
