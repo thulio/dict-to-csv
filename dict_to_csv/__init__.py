@@ -3,10 +3,9 @@ from __future__ import unicode_literals, absolute_import
 
 import collections
 import functools
-import six
-
 from contextlib import closing
 
+import six
 from dotmap import DotMap
 
 
@@ -36,21 +35,28 @@ def nested_mapping_to_line(nested_mapping, keys):
     return ','.join([str(recursive_getattr(dotted, key)) for key in keys])
 
 
-def transform(data):
+def extract_keys(data):
     keys = set()
 
     for nested_mapping in data:
-        for key in sorted([tpl[0] for tpl in recursive_mapping_iterator(DotMap(nested_mapping))]):
+        for key, value in recursive_mapping_iterator(DotMap(nested_mapping)):
             keys.add(key)
 
     sorted_keys = sorted(keys)
 
+    return sorted_keys
+
+
+def transform(data, include_headers=True):
+    keys = extract_keys(data)
+
     with closing(six.StringIO()) as buff:
-        buff.write(','.join(sorted_keys))
-        buff.write('\n')
+        if include_headers:
+            buff.write(','.join(keys))
+            buff.write('\n')
 
         for nested_mapping in data:
-            buff.write(nested_mapping_to_line(nested_mapping, sorted_keys))
+            buff.write(nested_mapping_to_line(nested_mapping, keys))
             buff.write('\n')
 
         return buff.getvalue()
