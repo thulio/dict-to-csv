@@ -11,7 +11,7 @@ setup(
     install_requires=[
         'dotmap==1.2.16',
         'six==1.10.0',
-        'typing==3.5.3.0; python_version == "2.7"',
+        'typing==3.5.3.0; python_version < "3.5"',
     ],
     test_suite='tests',
     tests_require=[

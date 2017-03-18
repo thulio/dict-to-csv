@@ -3,6 +3,7 @@ from __future__ import unicode_literals, absolute_import
 
 import collections
 import functools
+import typing
 from contextlib import closing
 
 import six
@@ -10,6 +11,7 @@ from dotmap import DotMap
 
 
 def empty_str(_):
+    # type: (typing.Any) -> typing.Text
     return ""
 
 
@@ -17,6 +19,7 @@ DotMap.__str__ = empty_str
 
 
 def recursive_mapping_iterator(nested_mapping):
+    # type: (typing.Mapping) -> typing.Generator[typing.Tuple[typing.Text, typing.Any], None, None]
     for key, value in six.iteritems(nested_mapping):
         if isinstance(value, collections.Mapping):
             for inner_key, inner_value in recursive_mapping_iterator(value):
@@ -26,17 +29,20 @@ def recursive_mapping_iterator(nested_mapping):
 
 
 def recursive_getattr(obj, attributes):
+    # type: (typing.Any, typing.Text) -> typing.Any
     return functools.reduce(getattr, [obj] + attributes.split('.'))
 
 
 def nested_mapping_to_line(nested_mapping, keys):
+    # type: (typing.Mapping, typing.Sequence[typing.Text]) -> typing.Text
     dotted = DotMap(nested_mapping)
 
     return ','.join([str(recursive_getattr(dotted, key)) for key in keys])
 
 
 def extract_keys(data, stop_after=5):
-    keys = set()
+    # type: (typing.Sequence[typing.Mapping], int) -> typing.List
+    keys = set()  # type: typing.Set[typing.Text]
 
     for nested_mapping in data:
         for key, value in recursive_mapping_iterator(DotMap(nested_mapping)):
@@ -58,6 +64,7 @@ def extract_keys(data, stop_after=5):
 
 
 def transform(data, include_headers=True, keys=None):
+    # type: (typing.Sequence[typing.Mapping], bool, typing.Sequence[typing.Text]) -> typing.Text
     keys = keys or extract_keys(data)
 
     with closing(six.StringIO()) as buff:
