@@ -53,6 +53,11 @@ class TestExtractKeys(unittest.TestCase):
         self.assertEqual(extract_keys(data), ['customer.address.number', 'customer.address.street', 'customer.name',
                                               'product.price', 'product.sku'])
 
+    def test_interrupt_if_keys_dont_change(self):
+        data = [{'key': 'value'} for _ in range(100)]
+
+        self.assertEqual(extract_keys(data), ['key'])
+
 
 class TestTransform(unittest.TestCase):
     def test_simple_data(self):

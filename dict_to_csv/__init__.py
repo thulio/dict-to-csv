@@ -35,12 +35,22 @@ def nested_mapping_to_line(nested_mapping, keys):
     return ','.join([str(recursive_getattr(dotted, key)) for key in keys])
 
 
-def extract_keys(data):
+def extract_keys(data, stop_after=5):
     keys = set()
 
     for nested_mapping in data:
         for key, value in recursive_mapping_iterator(DotMap(nested_mapping)):
+            old_length = len(keys)
             keys.add(key)
+            new_length = len(keys)
+
+            if old_length != new_length:
+                stop_after += 1
+            else:
+                stop_after -= 1
+
+            if stop_after == 0:
+                break
 
     sorted_keys = sorted(keys)
 
