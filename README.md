@@ -1,5 +1,7 @@
 # dict-to-csv
 
+[![Build Status](https://travis-ci.org/thulio/dict-to-csv.svg?branch=master)](https://travis-ci.org/thulio/dict-to-csv)
+
 dict-to-csv transforms nested Python dictionaries into CSV lines.
 
 Example:
