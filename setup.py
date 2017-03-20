@@ -9,13 +9,12 @@ setup(
     version='0.1.2',
     packages=find_packages(exclude=('tests', 'tests.*')),
     install_requires=[
-        'dotmap==1.2.16',
+        'dotmap==1.2.17',
         'six==1.10.0',
         'typing==3.5.3.0; python_version < "3.5"',
     ],
     test_suite='tests',
     tests_require=[
-        'mock==2.0.0; python_version == "2.7"',
     ],
     url='https://github.com/thulio/dict-to-csv',
     license='MIT',
