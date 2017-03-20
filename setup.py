@@ -6,7 +6,7 @@ PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 setup(
     name='dict-to-csv',
-    version='0.1.2',
+    version='0.1.3',
     packages=find_packages(exclude=('tests', 'tests.*')),
     install_requires=[
         'dotmap==1.2.17',
