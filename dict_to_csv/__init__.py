@@ -40,7 +40,7 @@ def nested_mapping_to_line(nested_mapping, keys):
     return ','.join([str(recursive_getattr(dotted, key)) for key in keys])
 
 
-def extract_keys(data, stop_after=5):
+def extract_header(data, stop_after=5):
     # type: (typing.Sequence[typing.Mapping], int) -> typing.List
     keys = set()  # type: typing.Set[typing.Text]
 
@@ -65,7 +65,7 @@ def extract_keys(data, stop_after=5):
 
 def transform(data, include_headers=True, keys=None):
     # type: (typing.Sequence[typing.Mapping], bool, typing.Sequence[typing.Text]) -> typing.Text
-    keys = keys or extract_keys(data)
+    keys = keys or extract_header(data)
 
     with closing(six.StringIO()) as buff:
         if include_headers:

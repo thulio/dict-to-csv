@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 import unittest
 
-from dict_to_csv import extract_keys, transform
+from dict_to_csv import extract_header, transform
 
 
 class TestExtractKeys(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestExtractKeys(unittest.TestCase):
             }
         ]
 
-        self.assertEqual(extract_keys(data), ['key_1', 'key_2'])
+        self.assertEqual(extract_header(data), ['key_1', 'key_2'])
 
     def test_nested_data(self):
         data = [{
@@ -50,13 +50,13 @@ class TestExtractKeys(unittest.TestCase):
             }
         ]
 
-        self.assertEqual(extract_keys(data), ['customer.address.number', 'customer.address.street', 'customer.name',
+        self.assertEqual(extract_header(data), ['customer.address.number', 'customer.address.street', 'customer.name',
                                               'product.price', 'product.sku'])
 
     def test_interrupt_if_keys_dont_change(self):
         data = [{'key': 'value'} for _ in range(100)]
 
-        self.assertEqual(extract_keys(data), ['key'])
+        self.assertEqual(extract_header(data), ['key'])
 
 
 class TestTransform(unittest.TestCase):
