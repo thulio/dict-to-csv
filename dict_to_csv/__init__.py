@@ -6,8 +6,12 @@ import functools
 import typing
 from contextlib import closing
 
-import six
 from dotmap import DotMap
+
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 
 def empty_str(_):
@@ -20,7 +24,7 @@ DotMap.__str__ = empty_str
 
 def recursive_mapping_iterator(nested_mapping):
     # type: (typing.Mapping) -> typing.Generator[typing.Tuple[typing.Text, typing.Any], None, None]
-    for key, value in six.iteritems(nested_mapping):
+    for key, value in nested_mapping.items():
         if isinstance(value, collections.Mapping):
             for inner_key, inner_value in recursive_mapping_iterator(value):
                 yield key + '.' + inner_key, inner_value
@@ -67,7 +71,7 @@ def transform(data, include_headers=True, keys=None):
     # type: (typing.Sequence[typing.Mapping], bool, typing.Sequence[typing.Text]) -> typing.Text
     keys = keys or extract_header(data)
 
-    with closing(six.StringIO()) as buff:
+    with closing(StringIO()) as buff:
         if include_headers:
             buff.write(','.join(keys))
             buff.write('\n')
