@@ -3,7 +3,7 @@ from __future__ import unicode_literals, absolute_import
 
 import collections
 import functools
-import typing
+import typing  # noqa: F401
 from contextlib import closing
 from io import StringIO
 
@@ -19,7 +19,7 @@ DotMap.__str__ = empty_str
 
 
 def recursive_mapping_iterator(nested_mapping):
-    # type: (typing.Mapping) -> typing.Generator[typing.Tuple[typing.Text, typing.Any], None, None]
+    # type: (typing.Mapping) -> typing.Generator[typing.Tuple[typing.Text, typing.Any], None, None]  # noqa: E501
     for key, value in nested_mapping.items():
         if isinstance(value, collections.Mapping):
             for inner_key, inner_value in recursive_mapping_iterator(value):
@@ -64,7 +64,7 @@ def extract_header(data, stop_after=5):
 
 
 def transform(data, include_headers=True, keys=None):
-    # type: (typing.Sequence[typing.Mapping], bool, typing.Sequence[typing.Text]) -> typing.Text
+    # type: (typing.Sequence[typing.Mapping], bool, typing.Sequence[typing.Text]) -> typing.Text # noqa: E501
     keys = keys or extract_header(data)
 
     with closing(StringIO()) as buff:
