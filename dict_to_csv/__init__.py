@@ -5,13 +5,9 @@ import collections
 import functools
 import typing
 from contextlib import closing
+from io import StringIO
 
 from dotmap import DotMap
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from io import StringIO
 
 
 def empty_str(_):
@@ -45,7 +41,7 @@ def nested_mapping_to_line(nested_mapping, keys):
 
 
 def extract_header(data, stop_after=5):
-    # type: (typing.Sequence[typing.Mapping], int) -> typing.List
+    # type: (typing.Sequence[typing.Mapping], int) -> typing.List[typing.Text]
     keys = set()  # type: typing.Set[typing.Text]
 
     for nested_mapping in data:
